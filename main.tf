@@ -6,7 +6,7 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${var.cloudtruth_account_id}:root"]
+      identifiers = formatlist("arn:aws:iam::%s:root", var.account_ids)
     }
 
     dynamic "condition" {

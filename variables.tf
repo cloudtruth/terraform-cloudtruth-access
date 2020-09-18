@@ -6,9 +6,10 @@ variable "external_id" {
   description = "The external id used for limiting access"
 }
 
-variable "cloudtruth_account_id" {
-  description = "The AWS account ID for the cloudtruth account that will be assuming the role"
-  default = "811566399652"
+variable "account_ids" {
+  description = "The AWS account IDs (for the cloudtruth account) that will be assuming the role"
+  type = list(string)
+  default = ["811566399652"]
 }
 
 variable "services_allowed" {
