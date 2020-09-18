@@ -76,7 +76,7 @@ locals {
   }
 }
 
-resource "aws_iam_role_policy" "cloudtruth-s3" {
+resource "aws_iam_role_policy" "cloudtruth-policies" {
   for_each = toset(var.services_allowed)
 
   name   = "allow-cloudtruth-access-to-${each.key}"
