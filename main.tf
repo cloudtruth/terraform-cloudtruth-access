@@ -77,7 +77,7 @@ locals {
 }
 
 resource "aws_iam_role_policy" "cloudtruth-policies" {
-  for_each = toset(var.services_allowed)
+  for_each = toset(var.services_enabled)
 
   name   = "allow-cloudtruth-access-to-${each.key}"
   role   = aws_iam_role.cloudtruth-access.id
