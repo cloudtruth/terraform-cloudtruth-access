@@ -12,12 +12,12 @@ variable "account_ids" {
   default = ["811566399652"]
 }
 
-variable "services_allowed" {
+variable "services_enabled" {
   description = <<-EOD
-    The AWS services to grant cloudtruth access to, defaults to s3 and ssm
+    The AWS services to grant cloudtruth access to, allowed values are s3, ssm
   EOD
   type = list(string)
-  default = ["s3", "ssm"]
+  default = ["s3"]
 }
 
 variable "s3_resources" {
