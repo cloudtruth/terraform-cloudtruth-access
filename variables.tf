@@ -8,16 +8,16 @@ variable "external_id" {
 
 variable "account_ids" {
   description = "The AWS account IDs (for the cloudtruth account) that will be assuming the role"
-  type = list(string)
-  default = ["811566399652"]
+  type        = list(string)
+  default     = ["811566399652"]
 }
 
 variable "services_enabled" {
   description = <<-EOD
     The AWS services to grant cloudtruth access to, allowed values are s3, ssm
   EOD
-  type = list(string)
-  default = ["s3"]
+  type        = list(string)
+  default     = ["s3"]
 }
 
 variable "s3_resources" {
@@ -26,15 +26,15 @@ variable "s3_resources" {
     all buckets is always allowed (for bucket chooser in UI) even if access
     isn't granted here
   EOD
-  type = list(string)
-  default = ["*"]
+  type        = list(string)
+  default     = ["*"]
 }
 
 variable "s3_policy" {
   description = <<-EOD
     A custom poilicy to use for s3 instead of the one this module would define
   EOD
-  default = ""
+  default     = ""
 }
 
 variable "ssm_resources" {
@@ -43,13 +43,13 @@ variable "ssm_resources" {
     all buckets is always allowed (for bucket chooser in UI) even if access
     isn't granted here
   EOD
-  type = list(string)
-  default = ["*"]
+  type        = list(string)
+  default     = ["*"]
 }
 
 variable "ssm_policy" {
   description = <<-EOD
     A custom poilicy to use for ssm instead of the one this module would define
   EOD
-  default = ""
+  default     = ""
 }

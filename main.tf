@@ -1,7 +1,7 @@
 
 data "aws_iam_policy_document" "assume_role" {
   statement {
-    sid = "AllowCloudtruthToAssumeRole"
+    sid     = "AllowCloudtruthToAssumeRole"
     actions = ["sts:AssumeRole"]
 
     principals {
@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "assume_role" {
 
 resource "aws_iam_role" "cloudtruth-access" {
   description = "The role that cloudtruth will assume in order to access your AWS account"
-  name = var.role_name
+  name        = var.role_name
 
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
@@ -36,16 +36,16 @@ resource "aws_iam_role" "cloudtruth-access" {
 data "aws_iam_policy_document" "s3" {
 
   statement {
-    sid = "BucketSelection"
-    actions = ["s3:GetBucketLocation", "s3:ListAllMyBuckets"]
-    effect = "Allow"
+    sid       = "BucketSelection"
+    actions   = ["s3:GetBucketLocation", "s3:ListAllMyBuckets"]
+    effect    = "Allow"
     resources = ["*"]
   }
 
   statement {
-    sid = "BucketAccess"
-    actions = ["s3:ListBucket", "s3:GetObject"]
-    effect = "Allow"
+    sid       = "BucketAccess"
+    actions   = ["s3:ListBucket", "s3:GetObject"]
+    effect    = "Allow"
     resources = var.s3_resources
   }
 
@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "ssm" {
       "ssm:GetParameters",
       "ssm:GetParametersByPath"
     ]
-    effect = "Allow"
+    effect    = "Allow"
     resources = var.ssm_resources
   }
 
@@ -71,7 +71,7 @@ data "aws_iam_policy_document" "ssm" {
 
 locals {
   policy_lookup = {
-    s3 = var.s3_policy != "" ? var.s3_policy : data.aws_iam_policy_document.s3.json
+    s3  = var.s3_policy != "" ? var.s3_policy : data.aws_iam_policy_document.s3.json
     ssm = var.ssm_policy != "" ? var.ssm_policy : data.aws_iam_policy_document.ssm.json
   }
 }
