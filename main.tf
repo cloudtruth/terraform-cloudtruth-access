@@ -1,4 +1,3 @@
-
 data "aws_iam_policy_document" "assume_role" {
   statement {
     sid     = "AllowCloudtruthToAssumeRole"
@@ -37,14 +36,14 @@ data "aws_iam_policy_document" "s3" {
 
   statement {
     sid       = "BucketSelection"
-    actions   = ["s3:GetBucketLocation", "s3:ListAllMyBuckets"]
+    actions   = ["s3:ListAllMyBuckets"]
     effect    = "Allow"
     resources = ["*"]
   }
 
   statement {
     sid       = "BucketAccess"
-    actions   = ["s3:ListBucket", "s3:GetObject"]
+    actions   = ["s3:GetBucketLocation", "s3:ListBucket", "s3:GetObject"]
     effect    = "Allow"
     resources = var.s3_resources
   }
