@@ -1,3 +1,7 @@
+locals {
+  external_ids = compact(split(",", var.external_id))
+}
+
 data "aws_iam_policy_document" "assume_role" {
   statement {
     sid     = "AllowCloudtruthToAssumeRole"
@@ -9,14 +13,12 @@ data "aws_iam_policy_document" "assume_role" {
     }
 
     dynamic "condition" {
-      for_each = compact([var.external_id])
+      for_each = length(local.external_ids) > 0 ? [1] : []
       content {
         test     = "StringEquals"
         variable = "sts:ExternalId"
 
-        values = [
-          condition.value
-        ]
+        values = local.external_ids
       }
     }
 
