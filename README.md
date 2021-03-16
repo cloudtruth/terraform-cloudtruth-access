@@ -38,7 +38,7 @@ module "grant-cloudtruth-access" {
 | s3\_resources | The s3 resources to explicitly grant access to, defaults to all, and listing<br>all buckets is always allowed (for bucket chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | services\_enabled | The AWS services to grant cloudtruth access to, allowed values are s3, ssm | `list(string)` | n/a | yes |
 | ssm\_policy | A custom policy to use for ssm instead of the one this module would define | `string` | `""` | no |
-| ssm\_resources | The ssm resources to explicitly grant access to, defaults to all | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
+| ssm\_resources | The ssm resources to explicitly grant access to, defaults to all, and listing<br>all is always allowed (for chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | secrets\_policy | A custom policy to use for secrets manager instead of the one this module would define | `string` | `""` | no |
 | secrets\_resources | The secrets manager resources to explicitly grant access to, defaults to all, and listing<br>all is always allowed (for chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 

@@ -57,9 +57,17 @@ data "aws_iam_policy_document" "s3" {
 data "aws_iam_policy_document" "ssm" {
 
   statement {
+    sid = "ParameterList"
+    actions = [
+      "ssm:DescribeParameters"
+    ]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
     sid = "ParameterAccess"
     actions = [
-      "ssm:DescribeParameters",
       "ssm:GetParameter",
       "ssm:GetParameters",
       "ssm:GetParametersByPath"
