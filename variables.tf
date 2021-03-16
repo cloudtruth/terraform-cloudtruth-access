@@ -14,10 +14,9 @@ variable "account_ids" {
 
 variable "services_enabled" {
   description = <<-EOD
-    The AWS services to grant cloudtruth access to, allowed values are s3, ssm
+    The AWS services to grant cloudtruth access to, allowed values are s3, ssm, secrets
   EOD
   type        = list(string)
-  default     = ["s3"]
 }
 
 variable "s3_resources" {
@@ -39,9 +38,7 @@ variable "s3_policy" {
 
 variable "ssm_resources" {
   description = <<-EOD
-    The ssm resources to explicitly grant access to, defaults to all, and listing
-    all buckets is always allowed (for bucket chooser in UI) even if access
-    isn't granted here
+    The ssm resources to explicitly grant access to, defaults to all
   EOD
   type        = list(string)
   default     = ["*"]
@@ -50,6 +47,22 @@ variable "ssm_resources" {
 variable "ssm_policy" {
   description = <<-EOD
     A custom poilicy to use for ssm instead of the one this module would define
+  EOD
+  default     = ""
+}
+
+variable "secrets_resources" {
+  description = <<-EOD
+    The secrets manager resources to explicitly grant access to, defaults to all, and listing
+    is always allowed (for chooser in UI) even if access isn't granted here
+  EOD
+  type        = list(string)
+  default     = ["*"]
+}
+
+variable "secrets_policy" {
+  description = <<-EOD
+    A custom poilicy to use for secrets manager instead of the one this module would define
   EOD
   default     = ""
 }

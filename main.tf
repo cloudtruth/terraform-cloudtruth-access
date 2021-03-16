@@ -70,10 +70,36 @@ data "aws_iam_policy_document" "ssm" {
 
 }
 
+//  This policy allows cloudtruth to list and read your AWS Secret Store
+//
+data "aws_iam_policy_document" "secrets" {
+
+  statement {
+    sid = "ListSecrets"
+    actions = [
+      "secretsmanager:ListSecrets"
+    ]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
+    sid = "SecretAccess"
+    actions = [
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret"
+    ]
+    effect    = "Allow"
+    resources = var.secrets_resources
+  }
+
+}
+
 locals {
   policy_lookup = {
     s3  = var.s3_policy != "" ? var.s3_policy : data.aws_iam_policy_document.s3.json
     ssm = var.ssm_policy != "" ? var.ssm_policy : data.aws_iam_policy_document.ssm.json
+    secrets = var.secrets_policy != "" ? var.secrets_policy : data.aws_iam_policy_document.secrets.json
   }
 }
 
