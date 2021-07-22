@@ -9,7 +9,7 @@ variable "external_id" {
 variable "account_ids" {
   description = "The AWS account IDs (for the cloudtruth account) that will be assuming the role"
   type        = list(string)
-  default     = ["811566399652"]
+  default     = ["609878994716"]
 }
 
 variable "services_enabled" {

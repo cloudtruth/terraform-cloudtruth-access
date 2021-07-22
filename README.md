@@ -31,7 +31,7 @@ module "grant-cloudtruth-access" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| account\_ids | The AWS account IDs (for the cloudtruth account) that will be assuming the role | `list(string)` | <pre>[<br>  "811566399652"<br>]</pre> | no |
+| account\_ids | The AWS account IDs (for the cloudtruth account) that will be assuming the role | `list(string)` | <pre>[<br>  "609878994716"<br>]</pre> | no |
 | external\_id | The external id used for limiting access. | `any` | n/a | yes |
 | role\_name | The role within your AWS account that cloudtruth will assume to perform its actions | `any` | n/a | yes |
 | s3\_policy | A custom policy to use for s3 instead of the one this module would define | `string` | `""` | no |
