@@ -19,6 +19,14 @@ variable "services_enabled" {
   type        = list(string)
 }
 
+variable "services_write_enabled" {
+  description = <<-EOD
+    The AWS services to grant cloudtruth write access to, allowed values are s3, ssm, secrets
+  EOD
+  type        = list(string)
+  default = []
+}
+
 variable "s3_resources" {
   description = <<-EOD
     The s3 resources to explicitly grant access to, defaults to all, and listing
