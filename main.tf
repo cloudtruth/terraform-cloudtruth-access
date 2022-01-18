@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-resource "aws_iam_role" "cloudtruth-access" {
+resource "aws_iam_role" "cloudtruth_access" {
   description = "The role that cloudtruth will assume in order to access your AWS account"
   name        = var.role_name
 
@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "s3" {
 
 // This policy allows cloudtruth to write to your S3 buckets
 //
-data "aws_iam_policy_document" "s3-write" {
+data "aws_iam_policy_document" "s3_write" {
 
   statement {
     sid       = "BucketWrite"
@@ -94,7 +94,7 @@ data "aws_iam_policy_document" "ssm" {
 
 //  This policy allows cloudtruth to write to your AWS SSM Parameter Store
 //
-data "aws_iam_policy_document" "ssm-write" {
+data "aws_iam_policy_document" "ssm_write" {
 
   statement {
     sid = "TagAccess"
@@ -120,9 +120,9 @@ data "aws_iam_policy_document" "ssm-write" {
 
 }
 
-//  This policy allows cloudtruth to list and read your AWS Secret Store
+//  This policy allows cloudtruth to list and read your AWS Secrets Manager Store
 //
-data "aws_iam_policy_document" "secrets" {
+data "aws_iam_policy_document" "secretsmanager" {
 
   statement {
     sid = "ListSecrets"
@@ -140,14 +140,14 @@ data "aws_iam_policy_document" "secrets" {
       "secretsmanager:DescribeSecret"
     ]
     effect    = "Allow"
-    resources = var.secrets_resources
+    resources = var.secretsmanager_resources
   }
 
 }
 
-//  This policy allows cloudtruth to write to your AWS Secret Store
+//  This policy allows cloudtruth to write to your AWS Secret Manager Store
 //
-data "aws_iam_policy_document" "secrets-write" {
+data "aws_iam_policy_document" "secretsmanager_write" {
 
   statement {
     sid = "SecretWrite"
@@ -158,36 +158,36 @@ data "aws_iam_policy_document" "secrets-write" {
       "secretsmanager:UpdateSecret"
     ]
     effect    = "Allow"
-    resources = var.secrets_resources
+    resources = var.secretsmanager_resources
   }
 
 }
 
 locals {
   policy_lookup = {
-    s3  = var.s3_policy != "" ? var.s3_policy : data.aws_iam_policy_document.s3.json
-    ssm = var.ssm_policy != "" ? var.ssm_policy : data.aws_iam_policy_document.ssm.json
-    secrets = var.secrets_policy != "" ? var.secrets_policy : data.aws_iam_policy_document.secrets.json
+    s3             = var.s3_policy != "" ? var.s3_policy : data.aws_iam_policy_document.s3.json
+    ssm            = var.ssm_policy != "" ? var.ssm_policy : data.aws_iam_policy_document.ssm.json
+    secretsmanager = var.secretsmanager_policy != "" ? var.secretsmanager_policy : data.aws_iam_policy_document.secretsmanager.json
   }
   write_policy_lookup = {
-    s3  = data.aws_iam_policy_document.s3-write.json
-    ssm = data.aws_iam_policy_document.ssm-write.json
-    secrets = data.aws_iam_policy_document.secrets-write.json
+    s3             = data.aws_iam_policy_document.s3_write.json
+    ssm            = data.aws_iam_policy_document.ssm_write.json
+    secretsmanager = data.aws_iam_policy_document.secretsmanager_write.json
   }
 }
 
-resource "aws_iam_role_policy" "cloudtruth-policies" {
+resource "aws_iam_role_policy" "cloudtruth_policies" {
   for_each = toset(var.services_enabled)
 
   name   = "allow-cloudtruth-access-to-${each.key}"
-  role   = aws_iam_role.cloudtruth-access.id
+  role   = aws_iam_role.cloudtruth_access.id
   policy = local.policy_lookup[each.key]
 }
 
-resource "aws_iam_role_policy" "cloudtruth-write-policies" {
+resource "aws_iam_role_policy" "cloudtruth_write_policies" {
   for_each = toset(var.services_write_enabled)
 
   name   = "allow-cloudtruth-write-to-${each.key}"
-  role   = aws_iam_role.cloudtruth-access.id
+  role   = aws_iam_role.cloudtruth_access.id
   policy = local.write_policy_lookup[each.key]
 }
