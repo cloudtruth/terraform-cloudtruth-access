@@ -14,17 +14,17 @@ variable "account_ids" {
 
 variable "services_enabled" {
   description = <<-EOD
-    The AWS services to grant cloudtruth access to, allowed values are s3, ssm, secrets
+    The AWS services to grant cloudtruth access to, allowed values are s3, ssm, secretsmanager
   EOD
   type        = list(string)
 }
 
 variable "services_write_enabled" {
   description = <<-EOD
-    The AWS services to grant cloudtruth write access to, allowed values are s3, ssm, secrets
+    The AWS services to grant cloudtruth write access to, allowed values are s3, ssm, secretsmanager
   EOD
   type        = list(string)
-  default = []
+  default     = []
 }
 
 variable "s3_resources" {
@@ -59,7 +59,7 @@ variable "ssm_policy" {
   default     = ""
 }
 
-variable "secrets_resources" {
+variable "secretsmanager_resources" {
   description = <<-EOD
     The secrets manager resources to explicitly grant access to, defaults to all, and listing
     is always allowed (for chooser in UI) even if access isn't granted here
@@ -68,7 +68,7 @@ variable "secrets_resources" {
   default     = ["*"]
 }
 
-variable "secrets_policy" {
+variable "secretsmanager_policy" {
   description = <<-EOD
     A custom poilicy to use for secrets manager instead of the one this module would define
   EOD
