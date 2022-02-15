@@ -163,13 +163,45 @@ data "aws_iam_policy_document" "secretsmanager_write" {
 
 }
 
+//  This policy allows cloudtruth to perform kms decrypt operations using the specified key(s)
+//
+data "aws_iam_policy_document" "kms" {
+
+  statement {
+    sid    = "KMSDecrypt"
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt"
+    ]
+    resources = var.kms_keys
+  }
+}
+
+//  This policy allows cloudtruth to perform kms decrypt and encrypt operations using the specified key(s)
+//
+data "aws_iam_policy_document" "kms_write" {
+
+  statement {
+    sid    = "KMSDecryptEncrypt"
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt",
+      "kms:Encrypt",
+      "kms:GenerateDataKey"
+    ]
+    resources = var.kms_keys
+  }
+}
+
 locals {
   policy_lookup = {
+    kms            = var.kms_policy != "" ? var.kms_policy : data.aws_iam_policy_document.kms.json
     s3             = var.s3_policy != "" ? var.s3_policy : data.aws_iam_policy_document.s3.json
     ssm            = var.ssm_policy != "" ? var.ssm_policy : data.aws_iam_policy_document.ssm.json
     secretsmanager = var.secretsmanager_policy != "" ? var.secretsmanager_policy : data.aws_iam_policy_document.secretsmanager.json
   }
   write_policy_lookup = {
+    kms            = data.aws_iam_policy_document.kms_write.json
     s3             = data.aws_iam_policy_document.s3_write.json
     ssm            = data.aws_iam_policy_document.ssm_write.json
     secretsmanager = data.aws_iam_policy_document.secretsmanager_write.json

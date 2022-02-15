@@ -14,14 +14,14 @@ variable "account_ids" {
 
 variable "services_enabled" {
   description = <<-EOD
-    The AWS services to grant cloudtruth access to, allowed values are s3, ssm, secretsmanager
+    The AWS services to grant cloudtruth access to, allowed values are s3, ssm, secretsmanager, kms
   EOD
   type        = list(string)
 }
 
 variable "services_write_enabled" {
   description = <<-EOD
-    The AWS services to grant cloudtruth write access to, allowed values are s3, ssm, secretsmanager
+    The AWS services to grant cloudtruth write access to, allowed values are s3, ssm, secretsmanager, kms
   EOD
   type        = list(string)
   default     = []
@@ -39,7 +39,7 @@ variable "s3_resources" {
 
 variable "s3_policy" {
   description = <<-EOD
-    A custom poilicy to use for s3 instead of the one this module would define
+    A custom policy to use for s3 instead of the one this module would define
   EOD
   default     = ""
 }
@@ -54,7 +54,7 @@ variable "ssm_resources" {
 
 variable "ssm_policy" {
   description = <<-EOD
-    A custom poilicy to use for ssm instead of the one this module would define
+    A custom policy to use for ssm instead of the one this module would define
   EOD
   default     = ""
 }
@@ -70,7 +70,22 @@ variable "secretsmanager_resources" {
 
 variable "secretsmanager_policy" {
   description = <<-EOD
-    A custom poilicy to use for secrets manager instead of the one this module would define
+    A custom policy to use for secrets manager instead of the one this module would define
+  EOD
+  default     = ""
+}
+
+variable "kms_keys" {
+  description = <<-EOD
+    The kms keys to explicitly grant access to, defaults to none
+  EOD
+  type        = list(string)
+  default     = []
+}
+
+variable "kms_policy" {
+  description = <<-EOD
+    A custom policy to use for kms key access instead of the one this module would define
   EOD
   default     = ""
 }
