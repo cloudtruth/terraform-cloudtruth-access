@@ -38,13 +38,14 @@ module "grant_cloudtruth_access" {
 | role\_name | The role within your AWS account that cloudtruth will assume to perform its actions | `any` | n/a | yes |
 | s3\_policy | A custom policy to use for s3 instead of the one this module would define | `string` | `""` | no |
 | s3\_resources | The s3 resources to explicitly grant access to, defaults to all, and listing<br>all buckets is always allowed (for bucket chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
-| services\_enabled | The AWS services to grant cloudtruth access to, allowed values are s3, ssm, secretsmanager, kms | `list(string)` | n/a | yes |
-| services\_write\_enabled | The AWS services to grant cloudtruth write access to, allowed values are s3, ssm, secretsmanager, kms | `list(string)` | `[]` | no |
+| services\_enabled | The AWS services to grant cloudtruth access to, allowed values are s3, ssm, secretsmanager | `list(string)` | n/a | yes |
+| services\_write\_enabled | The AWS services to grant cloudtruth write access to, allowed values are s3, ssm, secretsmanager | `list(string)` | `[]` | no |
 | ssm\_policy | A custom policy to use for ssm instead of the one this module would define | `string` | `""` | no |
 | ssm\_resources | The ssm resources to explicitly grant access to, defaults to all, and listing<br>all is always allowed (for chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | secretsmanager\_policy | A custom policy to use for secrets manager instead of the one this module would define | `string` | `""` | no |
 | secretsmanager\_resources | The secrets manager resources to explicitly grant access to, defaults to all, and listing<br>all is always allowed (for chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
-| kms\_policy | A custom policy to use for kms key access instead of the one this module would define | `string` | `""` | no |
+| kms\_decrypt\_enabled | Enable kms decryption using the specified kms keys; required only if ssm parameters or secretsmanager secrets use custom kms keys | `bool` | `false` | no |
+| kms\_encrypt\_enabled | Enable kms decryption/encryption using the specified kms keys; required only if ssm parameters or secretsmanager secrets use custom kms keys | `bool` | `false` | no |
 | kms\_keys | The kms keys to explicitly grant access to | `list(string)` | <pre>[]</pre> | no |
 
 ## Outputs

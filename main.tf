@@ -165,10 +165,10 @@ data "aws_iam_policy_document" "secretsmanager_write" {
 
 //  This policy allows cloudtruth to perform kms decrypt operations using the specified key(s)
 //
-data "aws_iam_policy_document" "kms" {
+data "aws_iam_policy_document" "kms_decrypt" {
 
   statement {
-    sid    = "KMSDecrypt"
+    sid    = "AllowKMSDecrypt"
     effect = "Allow"
     actions = [
       "kms:Decrypt"
@@ -177,15 +177,14 @@ data "aws_iam_policy_document" "kms" {
   }
 }
 
-//  This policy allows cloudtruth to perform kms decrypt and encrypt operations using the specified key(s)
+//  This policy allows cloudtruth to perform kms encrypt operations using the specified key(s)
 //
-data "aws_iam_policy_document" "kms_write" {
+data "aws_iam_policy_document" "kms_encrypt" {
 
   statement {
-    sid    = "KMSDecryptEncrypt"
+    sid    = "AllowKMSEncrypt"
     effect = "Allow"
     actions = [
-      "kms:Decrypt",
       "kms:Encrypt",
       "kms:GenerateDataKey"
     ]
@@ -195,13 +194,11 @@ data "aws_iam_policy_document" "kms_write" {
 
 locals {
   policy_lookup = {
-    kms            = var.kms_policy != "" ? var.kms_policy : data.aws_iam_policy_document.kms.json
     s3             = var.s3_policy != "" ? var.s3_policy : data.aws_iam_policy_document.s3.json
     ssm            = var.ssm_policy != "" ? var.ssm_policy : data.aws_iam_policy_document.ssm.json
     secretsmanager = var.secretsmanager_policy != "" ? var.secretsmanager_policy : data.aws_iam_policy_document.secretsmanager.json
   }
   write_policy_lookup = {
-    kms            = data.aws_iam_policy_document.kms_write.json
     s3             = data.aws_iam_policy_document.s3_write.json
     ssm            = data.aws_iam_policy_document.ssm_write.json
     secretsmanager = data.aws_iam_policy_document.secretsmanager_write.json
@@ -222,4 +219,18 @@ resource "aws_iam_role_policy" "cloudtruth_write_policies" {
   name   = "allow-cloudtruth-write-to-${each.key}"
   role   = aws_iam_role.cloudtruth_access.id
   policy = local.write_policy_lookup[each.key]
+}
+
+resource "aws_iam_role_policy" "cloudtruth_kms_decrypt" {
+  count  = var.kms_decrypt_enabled || var.kms_encrypt_enabled ? 1 : 0
+  name   = "allow-cloudtruth-kms-decrypt"
+  role   = aws_iam_role.cloudtruth_access.id
+  policy = data.aws_iam_policy_document.kms_decrypt.json
+}
+
+resource "aws_iam_role_policy" "cloudtruth_kms_encrypt" {
+  count  = var.kms_encrypt_enabled ? 1 : 0
+  name   = "allow-cloudtruth-kms-encrypt"
+  role   = aws_iam_role.cloudtruth_access.id
+  policy = data.aws_iam_policy_document.kms_encrypt.json
 }
