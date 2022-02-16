@@ -44,6 +44,9 @@ module "grant_cloudtruth_access" {
 | ssm\_resources | The ssm resources to explicitly grant access to, defaults to all, and listing<br>all is always allowed (for chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | secretsmanager\_policy | A custom policy to use for secrets manager instead of the one this module would define | `string` | `""` | no |
 | secretsmanager\_resources | The secrets manager resources to explicitly grant access to, defaults to all, and listing<br>all is always allowed (for chooser in UI) even if access<br>isn't granted here | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
+| kms\_decrypt\_enabled | Enable kms decryption using the specified kms keys; required only if ssm parameters or secretsmanager secrets use custom kms keys | `bool` | `false` | no |
+| kms\_encrypt\_enabled | Enable kms decryption/encryption using the specified kms keys; required only if ssm parameters or secretsmanager secrets use custom kms keys | `bool` | `false` | no |
+| kms\_keys | The kms keys to explicitly grant access to | `list(string)` | <pre>[]</pre> | no |
 
 ## Outputs
 

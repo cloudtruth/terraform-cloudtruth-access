@@ -39,7 +39,7 @@ variable "s3_resources" {
 
 variable "s3_policy" {
   description = <<-EOD
-    A custom poilicy to use for s3 instead of the one this module would define
+    A custom policy to use for s3 instead of the one this module would define
   EOD
   default     = ""
 }
@@ -54,7 +54,7 @@ variable "ssm_resources" {
 
 variable "ssm_policy" {
   description = <<-EOD
-    A custom poilicy to use for ssm instead of the one this module would define
+    A custom policy to use for ssm instead of the one this module would define
   EOD
   default     = ""
 }
@@ -70,7 +70,31 @@ variable "secretsmanager_resources" {
 
 variable "secretsmanager_policy" {
   description = <<-EOD
-    A custom poilicy to use for secrets manager instead of the one this module would define
+    A custom policy to use for secrets manager instead of the one this module would define
   EOD
   default     = ""
+}
+
+variable "kms_decrypt_enabled" {
+  description = <<-EOD
+    Enable kms decryption using the specified kms keys; required only if ssm parameters or secretsmanager secrets use custom kms keys
+  EOD
+  type        = bool
+  default     = false
+}
+
+variable "kms_encrypt_enabled" {
+  description = <<-EOD
+    Enable kms decryption/encryption using the specified kms keys; required only if ssm parameters or secretsmanager secrets use custom kms keys
+  EOD
+  type        = bool
+  default     = false
+}
+
+variable "kms_keys" {
+  description = <<-EOD
+    The kms keys to explicitly grant access to, defaults to none
+  EOD
+  type        = list(string)
+  default     = []
 }
